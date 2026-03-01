@@ -133,7 +133,9 @@ st.download_button(
 
 # กราฟเส้นแสดงยอดขายรายเดือนของหมวดหมู่ที่เลือก
 st.subheader("📈 Monthly Sales (Selected Category)")
-fig_line = px.line(filtered_cat, x="Month", y="Sales", markers=True)
+fig_line = px.line(
+    filtered_cat, x="Month", y="Sales", markers=True, title="Monthly Sales Trend"
+)
 st.plotly_chart(fig_line, use_container_width=True)
 
 # แบ่งหน้าจอเป็น 2 คอลัมน์สำหรับกราฟเพิ่มเติม
