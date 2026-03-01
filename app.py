@@ -42,9 +42,12 @@ selected_category = st.selectbox("Select Category", df["Category"].unique())
 filtered_df = df[df["Year"] == selected_year]
 filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
 
+
 # ----- Line Chart -----
-st.subheader("📈 Monthly Sales")
-fig_line = px.line(filtered_df, x="Month", y="Sales", color="Category", markers=True)
+st.subheader("📈 Monthly Sales (Selected Category)")
+
+fig_line = px.line(filtered_cat, x="Month", y="Sales", markers=True)
+
 st.plotly_chart(fig_line)
 
 # ----- Bar Chart -----
