@@ -53,20 +53,21 @@ col1.metric("💰 Total Sales", f"{total_sales:,}")
 col2.metric("📊 Average Sales", f"{avg_sales:,.0f}")
 col3.metric("🚀 Highest Month", f"{max_sales:,}")
 
-# ----- Line Chart -----
+# ----- Charts Layout -----
+
 st.subheader("📈 Monthly Sales (Selected Category)")
-
 fig_line = px.line(filtered_cat, x="Month", y="Sales", markers=True)
+st.plotly_chart(fig_line, use_container_width=True)
 
-st.plotly_chart(fig_line)
+colA, colB = st.columns(2)
 
-# ----- Bar Chart -----
-st.subheader("📊 Sales by Category")
-category_sum = filtered_df.groupby("Category")["Sales"].sum().reset_index()
-fig_bar = px.bar(category_sum, x="Category", y="Sales")
-st.plotly_chart(fig_bar)
+with colA:
+    st.subheader("📊 Sales by Category")
+    category_sum = filtered_df.groupby("Category")["Sales"].sum().reset_index()
+    fig_bar = px.bar(category_sum, x="Category", y="Sales")
+    st.plotly_chart(fig_bar, use_container_width=True)
 
-# ----- Pie Chart -----
-st.subheader("🥧 Category Distribution")
-fig_pie = px.pie(category_sum, names="Category", values="Sales")
-st.plotly_chart(fig_pie)
+with colB:
+    st.subheader("🥧 Category Distribution")
+    fig_pie = px.pie(category_sum, names="Category", values="Sales")
+    st.plotly_chart(fig_pie, use_container_width=True)
