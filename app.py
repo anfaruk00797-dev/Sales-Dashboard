@@ -3,75 +3,83 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+# ------------------ Page Config ------------------
 st.set_page_config(page_title="Sales Dashboard", page_icon="💰", layout="wide")
-st.title("💰 Sales Dashboard")
 
+st.title("💰 Sales Dashboard")
 st.markdown(
     "Interactive dashboard for analyzing sales performance by year and category."
 )
-# ----- สร้างข้อมูล -----
-years = [2022, 2023, 2024]
-months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-]
-categories = ["Electronics", "Clothing", "Food"]
 
-data = []
 
-np.random.seed(42)
+# ------------------ Dataset Function ------------------
+def create_dataset():
+    years = [2022, 2023, 2024]
+    months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ]
+    categories = ["Electronics", "Clothing", "Food"]
 
-for year in years:
-    for month in months:
-        for cat in categories:
-            sales = np.random.randint(1000, 10000)
-            data.append([year, month, cat, sales])
+    data = []
+    np.random.seed(42)
 
-df = pd.DataFrame(data, columns=["Year", "Month", "Category", "Sales"])
+    for year in years:
+        for month in months:
+            for cat in categories:
+                sales = np.random.randint(1000, 10000)
+                data.append([year, month, cat, sales])
 
-# ----- Interactive -----
-# ----- Sidebar Filters -----
+    df = pd.DataFrame(data, columns=["Year", "Month", "Category", "Sales"])
+    return df, months
+
+
+df, months = create_dataset()
+
+# ------------------ Sidebar Filters ------------------
 st.sidebar.header("🔎 Filter Options")
 
 selected_year = st.sidebar.selectbox("Select Year", df["Year"].unique())
 
 selected_category = st.sidebar.selectbox("Select Category", df["Category"].unique())
 
+# ------------------ Filtering ------------------
 filtered_df = df[df["Year"] == selected_year]
-filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
+filtered_cat = df[
+    (df["Year"] == selected_year) & (df["Category"] == selected_category)
+].copy()  # copy() กัน warning
 
-filtered_df = df[df["Year"] == selected_year]
-filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
-
-# ----- Fix Month Order -----
+# ------------------ Fix Month Order ------------------
 filtered_cat["Month"] = pd.Categorical(
     filtered_cat["Month"], categories=months, ordered=True
 )
 
 filtered_cat = filtered_cat.sort_values("Month")
-# ----- Summary Metrics -----
+
+# ------------------ Summary Metrics ------------------
 total_sales = filtered_cat["Sales"].sum()
 avg_sales = filtered_cat["Sales"].mean()
 max_sales = filtered_cat["Sales"].max()
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("💰 Total Sales", f"{total_sales:,}")
+col1.metric("💰 Total Sales", f"฿{total_sales:,}")
 col2.metric("📊 Average Sales", f"{avg_sales:,.0f}")
-col3.metric("🚀 Highest Month", f"{max_sales:,}")
+col3.metric("🚀 Highest Month Sales", f"฿{max_sales:,}")
 
 st.divider()
 
+# ------------------ Highlight Section ------------------
 top_month = filtered_cat.loc[filtered_cat["Sales"].idxmax(), "Month"]
 st.info(f"🏆 Best Selling Month: {top_month}")
 
@@ -81,7 +89,8 @@ st.download_button(
     file_name="filtered_sales.csv",
     mime="text/csv",
 )
-# ----- Charts Layout -----
+
+# ------------------ Charts Layout ------------------
 
 st.subheader("📈 Monthly Sales (Selected Category)")
 fig_line = px.line(filtered_cat, x="Month", y="Sales", markers=True)
@@ -100,8 +109,8 @@ with colB:
     fig_pie = px.pie(category_sum, names="Category", values="Sales")
     st.plotly_chart(fig_pie, use_container_width=True)
 
+# ------------------ Year Comparison ------------------
 st.subheader("📊 Yearly Sales Comparison")
-
 yearly_sales = df.groupby("Year")["Sales"].sum().reset_index()
 fig_year = px.bar(yearly_sales, x="Year", y="Sales")
 st.plotly_chart(fig_year, use_container_width=True)
