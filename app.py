@@ -36,8 +36,12 @@ for year in years:
 df = pd.DataFrame(data, columns=["Year", "Month", "Category", "Sales"])
 
 # ----- Interactive -----
-selected_year = st.selectbox("Select Year", df["Year"].unique())
-selected_category = st.selectbox("Select Category", df["Category"].unique())
+# ----- Sidebar Filters -----
+st.sidebar.header("🔎 Filter Options")
+
+selected_year = st.sidebar.selectbox("Select Year", df["Year"].unique())
+
+selected_category = st.sidebar.selectbox("Select Category", df["Category"].unique())
 
 filtered_df = df[df["Year"] == selected_year]
 filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
