@@ -50,6 +50,15 @@ selected_category = st.sidebar.selectbox("Select Category", df["Category"].uniqu
 filtered_df = df[df["Year"] == selected_year]
 filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
 
+filtered_df = df[df["Year"] == selected_year]
+filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
+
+# ----- Fix Month Order -----
+filtered_cat["Month"] = pd.Categorical(
+    filtered_cat["Month"], categories=months, ordered=True
+)
+
+filtered_cat = filtered_cat.sort_values("Month")
 # ----- Summary Metrics -----
 total_sales = filtered_cat["Sales"].sum()
 avg_sales = filtered_cat["Sales"].mean()
