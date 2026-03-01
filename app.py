@@ -94,3 +94,9 @@ with colB:
     st.subheader("🥧 Category Distribution")
     fig_pie = px.pie(category_sum, names="Category", values="Sales")
     st.plotly_chart(fig_pie, use_container_width=True)
+
+st.subheader("📊 Yearly Sales Comparison")
+
+yearly_sales = df.groupby("Year")["Sales"].sum().reset_index()
+fig_year = px.bar(yearly_sales, x="Year", y="Sales")
+st.plotly_chart(fig_year, use_container_width=True)
