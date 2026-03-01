@@ -6,6 +6,9 @@ import numpy as np
 st.set_page_config(page_title="Sales Dashboard", page_icon="💰", layout="wide")
 st.title("💰 Sales Dashboard")
 
+st.markdown(
+    "Interactive dashboard for analyzing sales performance by year and category."
+)
 # ----- สร้างข้อมูล -----
 years = [2022, 2023, 2024]
 months = [
