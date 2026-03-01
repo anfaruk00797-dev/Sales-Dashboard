@@ -70,6 +70,9 @@ col1.metric("💰 Total Sales", f"{total_sales:,}")
 col2.metric("📊 Average Sales", f"{avg_sales:,.0f}")
 col3.metric("🚀 Highest Month", f"{max_sales:,}")
 
+top_month = filtered_cat.loc[filtered_cat["Sales"].idxmax(), "Month"]
+st.info(f"🏆 Best Selling Month: {top_month}")
+
 st.download_button(
     label="📥 Download Filtered Data",
     data=filtered_cat.to_csv(index=False),
