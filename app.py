@@ -42,6 +42,16 @@ selected_category = st.selectbox("Select Category", df["Category"].unique())
 filtered_df = df[df["Year"] == selected_year]
 filtered_cat = df[(df["Year"] == selected_year) & (df["Category"] == selected_category)]
 
+# ----- Summary Metrics -----
+total_sales = filtered_cat["Sales"].sum()
+avg_sales = filtered_cat["Sales"].mean()
+max_sales = filtered_cat["Sales"].max()
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric("💰 Total Sales", f"{total_sales:,}")
+col2.metric("📊 Average Sales", f"{avg_sales:,.0f}")
+col3.metric("🚀 Highest Month", f"{max_sales:,}")
 
 # ----- Line Chart -----
 st.subheader("📈 Monthly Sales (Selected Category)")
