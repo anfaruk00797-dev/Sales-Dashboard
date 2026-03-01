@@ -105,3 +105,6 @@ st.subheader("📊 Yearly Sales Comparison")
 yearly_sales = df.groupby("Year")["Sales"].sum().reset_index()
 fig_year = px.bar(yearly_sales, x="Year", y="Sales")
 st.plotly_chart(fig_year, use_container_width=True)
+
+st.markdown("---")
+st.markdown("Created for Dashboard Assignment 🚀")
