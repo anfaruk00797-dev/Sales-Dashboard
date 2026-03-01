@@ -57,6 +57,12 @@ col1.metric("💰 Total Sales", f"{total_sales:,}")
 col2.metric("📊 Average Sales", f"{avg_sales:,.0f}")
 col3.metric("🚀 Highest Month", f"{max_sales:,}")
 
+st.download_button(
+    label="📥 Download Filtered Data",
+    data=filtered_cat.to_csv(index=False),
+    file_name="filtered_sales.csv",
+    mime="text/csv",
+)
 # ----- Charts Layout -----
 
 st.subheader("📈 Monthly Sales (Selected Category)")
