@@ -66,7 +66,7 @@ streamlit run app.py
 
 ## 📊 Dataset
 
-The dataset is randomly generated using NumPy and includes:
+# The dataset is randomly generated using NumPy and includes:
 
 - Years: 2022–2024
 - Months: Jan–Dec
@@ -86,7 +86,7 @@ The dataset is randomly generated using NumPy and includes:
 - Implement caching for performance optimization
 - Structure clean and maintainable Python code
 
----
+-------------
 
 ## 📌 Author
 
